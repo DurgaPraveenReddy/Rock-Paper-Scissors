@@ -29,4 +29,33 @@ let getHumanChoice = function() {
     }
     return picked
 }
-console.log(getHumanChoice())
+
+let humanScore = 0        // for keeping track of human score
+let computerScore = 0     // for keeping track of computer score
+
+//play round function
+let playRound = (humanChoice, computerChoice) => {
+    let result
+    if(humanChoice === "Rock" && computerChoice === "Scissors"){
+        result = `You won! ${humanChoice} beats ${computerChoice}`
+        humanScore += 1
+    }else if(humanChoice === "Paper" && computerChoice === "Rock"){
+        result = `You won! ${humanChoice} beats ${computerChoice}`
+        humanScore += 1
+    }else if(humanChoice === "Scissors" && computerChoice === "Paper"){
+        result = `You won! ${humanChoice} beats ${computerChoice}`
+        humanScore += 1
+    }else if(humanChoice === computerChoice){
+        result = `Its a tie! Computer choice : ${computerChoice}`
+    }else{
+        result = `You lose! ${computerChoice} beats ${humanChoice}`
+        computerScore += 1
+    }
+    return result
+}
+
+// Variables for storing human and computer choices
+const humanChoice = getHumanChoice()
+const computerChoice = getComputerChoice()
+
+console.log(playRound(humanChoice, computerChoice))
