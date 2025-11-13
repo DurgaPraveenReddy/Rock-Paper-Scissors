@@ -1,4 +1,4 @@
-// computer choice function
+// Computer choice function
 let getComputerChoice = () => {
     let val = Math.random()
     let choice
@@ -12,7 +12,7 @@ let getComputerChoice = () => {
     return choice
 }
 
-//human choice function
+// Human choice function
 let getHumanChoice = function() {
     let picked
     let choice = parseInt(prompt("Enter your choice: 1.Rock 2.Paper 3.Scissors"))
@@ -30,32 +30,56 @@ let getHumanChoice = function() {
     return picked
 }
 
-let humanScore = 0        // for keeping track of human score
-let computerScore = 0     // for keeping track of computer score
+// Play game function
+function playGame() {
 
-//play round function
-let playRound = (humanChoice, computerChoice) => {
-    let result
-    if(humanChoice === "Rock" && computerChoice === "Scissors"){
-        result = `You won! ${humanChoice} beats ${computerChoice}`
-        humanScore += 1
-    }else if(humanChoice === "Paper" && computerChoice === "Rock"){
-        result = `You won! ${humanChoice} beats ${computerChoice}`
-        humanScore += 1
-    }else if(humanChoice === "Scissors" && computerChoice === "Paper"){
-        result = `You won! ${humanChoice} beats ${computerChoice}`
-        humanScore += 1
-    }else if(humanChoice === computerChoice){
-        result = `Its a tie! Computer choice : ${computerChoice}`
-    }else{
-        result = `You lose! ${computerChoice} beats ${humanChoice}`
-        computerScore += 1
+    let gameResult = null
+    let humanScore = 0        // For keeping track of human score
+    let computerScore = 0     // For keeping track of computer score
+
+    // Play round function
+    let playRound = (humanChoice, computerChoice) => {
+        if(humanChoice === null) return null  // This takes care of the wrong choice by human
+        let roundResult = null
+        if(humanChoice === computerChoice){
+            roundResult = `Its a tie! both chose ${humanChoice}.`
+        }
+        else if(
+            humanChoice === "Rock" && computerChoice === "Scissors" || 
+            humanChoice === "Paper" && computerChoice === "Rock" || 
+            humanChoice === "Scissors" && computerChoice === "Paper") {
+
+            roundResult = `You won! your choice: ${humanChoice} beats computer's choice: ${computerChoice}.`
+            humanScore += 1
+            
+        }
+        else{
+            roundResult = `You lose! computer's choice: ${computerChoice} beats your choice: ${humanChoice}.`
+            computerScore += 1
+        }
+        return roundResult
     }
-    return result
+
+    // Playing 5 rounds
+
+    for(i = 0; i < 5; i++){
+        let humanChoice = getHumanChoice()
+        let computerChoice = getComputerChoice()
+        console.log(playRound(humanChoice, computerChoice))
+    }
+
+    // Game result with scores
+    if(humanScore === computerScore){
+        gameResult = `Its a draw, your score:${humanScore} and computer's score:${computerScore}.`
+    }
+    else if(humanScore > computerScore){
+        gameResult = `You won the game!, your score:${humanScore} and computer's score:${computerScore}.`
+    }
+    else{
+        gameResult = `You lost the game!, your score:${humanScore} and computer's score:${computerScore}.`
+    }
+    return gameResult
 }
 
-// Variables for storing human and computer choices
-const humanChoice = getHumanChoice()
-const computerChoice = getComputerChoice()
 
-console.log(playRound(humanChoice, computerChoice))
+console.log(playGame())
