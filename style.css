@@ -1,0 +1,33 @@
+body{
+    height: 100vh;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #1f2937;
+}
+h1 {
+    text-align: center;
+    color: #f9faf8;
+    margin-bottom: 40px;
+}
+.images {
+    display: flex;
+    gap: 80px;
+    justify-content: center;
+}
+/* .image1 {
+    border: solid red 2px;
+
+} */
+.image1 img, .image2 img {
+    height: auto;
+    max-width: 100%;
+    object-fit: cover;
+}
+.image1, .image2 {
+    /* border: solid grey 2px; */
+    width: 800px;
+}
