@@ -12,74 +12,55 @@ let getComputerChoice = () => {
     return choice
 }
 
-// Human choice function
-let getHumanChoice = function() {
-    let picked
-    let choice = parseInt(prompt("Enter your choice: 1.Rock 2.Paper 3.Scissors"))
-    if(choice === 1){
-        picked = "Rock"
-    }else if(choice === 2){
-        picked = "Paper"
-    }else if(choice === 3){
-        picked = "Scissors"
+let humanScore = 0;
+let computerScore = 0;
+
+// Play round function
+let playRound = (humanChoice, computerChoice) => {
+    if(humanChoice === null) return null  // This takes care of the wrong choice by human
+    let roundResult = null
+    if(humanChoice === computerChoice){
+        roundResult = `Its a tie! both chose ${humanChoice}.`
+    }
+    else if(
+        (humanChoice === "Rock" && computerChoice === "Scissors") || 
+        (humanChoice === "Paper" && computerChoice === "Rock") || 
+        (humanChoice === "Scissors" && computerChoice === "Paper")) {
+
+        roundResult = `You won! your choice: ${humanChoice} beats computer's choice: ${computerChoice}.`
+        humanScore += 1
+        
     }
     else{
-        console.log("Invalid choice. Returning null.")
-        picked = null
+        roundResult = `You lose! computer's choice: ${computerChoice} beats your choice: ${humanChoice}.`
+        computerScore += 1
     }
-    return picked
+    return roundResult
 }
 
-// Play game function
-function playGame() {
+function handleButtonClick(event) {
+    const computerChoice = getComputerChoice()
+    let roundResult
+    switch (event.target.id) {
+        case "Rock":
+            roundResult = playRound("Rock", computerChoice)
+            console.log(roundResult)
+            break;
 
-    let gameResult = null
-    let humanScore = 0        // For keeping track of human score
-    let computerScore = 0     // For keeping track of computer score
+        case "Paper":
+            roundResult = playRound("Paper", computerChoice)
+            console.log(roundResult)
+            break;
 
-    // Play round function
-    let playRound = (humanChoice, computerChoice) => {
-        if(humanChoice === null) return null  // This takes care of the wrong choice by human
-        let roundResult = null
-        if(humanChoice === computerChoice){
-            roundResult = `Its a tie! both chose ${humanChoice}.`
-        }
-        else if(
-            humanChoice === "Rock" && computerChoice === "Scissors" || 
-            humanChoice === "Paper" && computerChoice === "Rock" || 
-            humanChoice === "Scissors" && computerChoice === "Paper") {
-
-            roundResult = `You won! your choice: ${humanChoice} beats computer's choice: ${computerChoice}.`
-            humanScore += 1
-            
-        }
-        else{
-            roundResult = `You lose! computer's choice: ${computerChoice} beats your choice: ${humanChoice}.`
-            computerScore += 1
-        }
-        return roundResult
+        case "Scissors":
+            roundResult = playRound("Scissors", computerChoice)
+            console.log(roundResult)
+            break;
     }
-
-    // Playing 5 rounds
-
-    for(i = 0; i < 5; i++){
-        let humanChoice = getHumanChoice()
-        let computerChoice = getComputerChoice()
-        console.log(playRound(humanChoice, computerChoice))
-    }
-
-    // Game result with scores
-    if(humanScore === computerScore){
-        gameResult = `Its a draw, your score:${humanScore} and computer's score:${computerScore}.`
-    }
-    else if(humanScore > computerScore){
-        gameResult = `You won the game!, your score:${humanScore} and computer's score:${computerScore}.`
-    }
-    else{
-        gameResult = `You lost the game!, your score:${humanScore} and computer's score:${computerScore}.`
-    }
-    return gameResult
 }
 
+const buttons = document.querySelectorAll("button")
 
-console.log(playGame())
+buttons.forEach(button => {
+    button.addEventListener("click", handleButtonClick)    
+});
