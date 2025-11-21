@@ -17,7 +17,6 @@ let computerScore = 0;
 
 // Play round function
 let playRound = (humanChoice, computerChoice) => {
-    if(humanChoice === null) return null  // This takes care of the wrong choice by human
     let roundResult = null
     if(humanChoice === computerChoice){
         roundResult = `Its a tie! both chose ${humanChoice}.`
@@ -38,23 +37,44 @@ let playRound = (humanChoice, computerChoice) => {
     return roundResult
 }
 
+const span = document.querySelector("#result")
+const scores = document.querySelector("#scores")
+const gameResult = document.querySelector("#gameResult")
+
+function gameInfo(roundResult) {
+    span.textContent = roundResult
+    scores.textContent = `Your score: ${humanScore} Computer score: ${computerScore}`
+
+    if(humanScore == 5|| computerScore == 5) {
+        if(humanScore == 5) {
+            gameResult.textContent = "You wont the game!."
+        } else {
+            gameResult.textContent = "You lost the game!."
+        }
+        // Reloading the page after 2 seconds
+        setTimeout(function() {
+            window.location.reload()
+        }, 2000);
+    }
+}
+
 function handleButtonClick(event) {
     const computerChoice = getComputerChoice()
     let roundResult
     switch (event.target.id) {
         case "Rock":
-            roundResult = playRound("Rock", computerChoice)
-            console.log(roundResult)
+            roundResult = playRound(event.target.id, computerChoice)
+            gameInfo(roundResult)
             break;
 
         case "Paper":
-            roundResult = playRound("Paper", computerChoice)
-            console.log(roundResult)
+            roundResult = playRound(event.target.id, computerChoice)
+            gameInfo(roundResult)
             break;
 
         case "Scissors":
-            roundResult = playRound("Scissors", computerChoice)
-            console.log(roundResult)
+            roundResult = playRound(event.target.id, computerChoice)
+            gameInfo(roundResult)
             break;
     }
 }
