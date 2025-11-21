@@ -1,4 +1,16 @@
+// Used by playRound() to keep track of scores
+let humanScore = 0;
+let computerScore = 0;
+
+// Using DOM methods to store element references inorder to modify 
+// elements in the gameInfo function.
+
+const roundInfo = document.querySelector("#roundInfo")
+const scores = document.querySelector("#scores")
+const gameResult = document.querySelector("#gameResult")
+
 // Computer choice function
+
 let getComputerChoice = () => {
     let val = Math.random()
     let choice
@@ -12,51 +24,50 @@ let getComputerChoice = () => {
     return choice
 }
 
-let humanScore = 0;
-let computerScore = 0;
-
 // Play round function
+
 let playRound = (humanChoice, computerChoice) => {
     let roundResult = null
     if(humanChoice === computerChoice){
-        roundResult = `Its a tie! both chose ${humanChoice}.`
+        roundResult = `It's a tie, both chose ${humanChoice}.`
     }
     else if(
         (humanChoice === "Rock" && computerChoice === "Scissors") || 
         (humanChoice === "Paper" && computerChoice === "Rock") || 
         (humanChoice === "Scissors" && computerChoice === "Paper")) {
 
-        roundResult = `You won! your choice: ${humanChoice} beats computer's choice: ${computerChoice}.`
+        roundResult = `You won, your choice ${humanChoice} beats computer's choice ${computerChoice}.`
         humanScore += 1
         
     }
     else{
-        roundResult = `You lose! computer's choice: ${computerChoice} beats your choice: ${humanChoice}.`
+        roundResult = `You lose, computer's choice ${computerChoice} beats your choice ${humanChoice}.`
         computerScore += 1
     }
     return roundResult
 }
 
-const span = document.querySelector("#result")
-const scores = document.querySelector("#scores")
-const gameResult = document.querySelector("#gameResult")
+// This function is responsible for updating the page with game info for every click
 
 function gameInfo(roundResult) {
-    span.textContent = roundResult
+    roundInfo.textContent = roundResult
     scores.textContent = `Your score: ${humanScore} Computer score: ${computerScore}`
 
     if(humanScore == 5|| computerScore == 5) {
         if(humanScore == 5) {
-            gameResult.textContent = "You wont the game!."
+            gameResult.textContent = `Game Over! You win the match, beating the computer ${humanScore} to ${computerScore}.`
         } else {
-            gameResult.textContent = "You lost the game!."
+            gameResult.textContent = `Game Over! The computer wins the match, beating you ${computerScore} to ${humanScore}.`
         }
+
         // Reloading the page after 2 seconds
         setTimeout(function() {
             window.location.reload()
         }, 2000);
     }
 }
+
+// This function gets called by the event handler
 
 function handleButtonClick(event) {
     const computerChoice = getComputerChoice()
@@ -79,7 +90,11 @@ function handleButtonClick(event) {
     }
 }
 
+// This stores the nodeList of all the buttons
+
 const buttons = document.querySelectorAll("button")
+
+// Assigning event handler for each button for the event 'click'
 
 buttons.forEach(button => {
     button.addEventListener("click", handleButtonClick)    
